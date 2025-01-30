@@ -1,0 +1,49 @@
+<div class="card shadow-lg bg-[#d6d6b1] rounded-lg">
+    <div class="card-header">
+      <h2 class="text-6xl teko-add text-black mb-1 mt-2">Workout Charts</h2>
+    </div>
+    
+    <div class="card-body">
+      <!-- Bar Chart -->
+      <mat-card class="card shadow-lg bg-[#d6d6b1] rounded-lg">
+        <mat-card-header>
+          <mat-card-title class="text-2xl font-bold text-black mb-4">Workout Activity Breakdown Chart For Each User</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="chart-container">
+            <canvas id="workoutChart"></canvas>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Pie Chart -->
+      <mat-card class="card shadow-lg bg-[#d6d6b1] rounded-lg mt-6">
+        <mat-card-header>
+          <mat-card-title class="text-2xl font-bold text-black mb-4">Workout Distribution Pie Chart</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Doughnut Chart -->
+      <mat-card class="card shadow-lg bg-[#d6d6b1] rounded-lg mt-6">
+        <mat-card-header>
+          <mat-card-title class="text-2xl font-bold text-black mb-4">Workout Time Distribution for Selected User</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- User Selector Dropdown -->
+          <label for="userSelect" class="block text-sm font-medium text-black mb-2">Select User:</label>
+          <select id="userSelect" (change)="onUserChange($event)" class="w-full p-2 border border-gray-700 rounded-md bg-[#c2c29d] text-black focus:outline-none focus:ring-2 focus:ring-[#a5a58d]">
+            <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
+          </select>
+  
+          <div class="chart-container mt-4">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

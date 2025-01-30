@@ -1,1 +1,78 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Yesteryear&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #171818;
+  color: black;
+}
+
+.teko-add {
+  font-family: "Teko", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.yesteryear-regular {
+  font-family: "Yesteryear", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Material Theme Overrides */
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: white;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  color: rgb(24 160 139 / 0.4);
+}
+
+.mat-mdc-raised-button.mat-primary {
+  --mdc-filled-button-container-color: rgb(24, 160, 139);
+  --mdc-filled-button-label-text-color: black;
+}
+
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-paginator {
+  background: transparent !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: rgb(24 160 139 / 0.4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff00; 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #848467;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(24, 160, 139 / 0.8);
+}
