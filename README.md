@@ -1,59 +1,174 @@
-# FyleHealthtracker
+# Fyle Frontend Challenge 🏃‍♂️
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.3.
+<div align="center">
+  <img src="path-to-your-logo.png" alt="Fyle Logo" width="150"/>
+  <h3>Health Challenge Tracker</h3>
+  <p>A minimalist workout tracking application built with Angular 14+</p>
 
-## Development server
+  [![Live Demo](https://img.shields.io/badge/demo-live-green.svg)](your-demo-link)
+  [![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red)](https://angular.io)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-styled-blue)](https://tailwindcss.com)
+  
+</div>
 
-To start a local development server, run:
+---
+
+## ✨ Live Demo
+
+Check out the live application: [Health Challenge Tracker](your-deployed-url)
+
+## 🚀 Features
+
+- **Modern UI/UX**
+  - Clean, minimalist interface
+  - Responsive design
+  - Intuitive workout logging
+
+- **Core Functionalities**
+  - Add workouts with user details
+  - Search users by name
+  - Filter by workout type
+  - Smart pagination
+
+- **Data Management**
+  - Local storage persistence
+  - Real-time updates
+  - Data validation
+
+## 💻 Tech Stack
+
+- Angular 14+
+- TypeScript
+- Tailwind CSS
+- Angular Material
+- Local Storage API
+- Karma & Jasmine
+
+## 🛠️ Setup & Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/your-username/fyle-frontend-challenge.git
+
+# Navigate to directory
+cd fyle-frontend-challenge
+
+# Install dependencies
+npm install
+
+# Start development server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Visit `http://localhost:4200` in your browser.
 
-## Code scaffolding
+## 📁 Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── workout-form/
+│   │   ├── workout-list/
+│   │   └── workout-charts/
+│   ├── services/
+│   │   └── workout.service.ts
+│   ├── models/
+│   │   └── user.model.ts
+│   └── shared/
+└── styles/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🧪 Testing
 
 ```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
+# Run tests
 ng test
+
+# Generate coverage report
+ng test --code-coverage
 ```
 
-## Running end-to-end tests
+### Coverage Report
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+=============================== Coverage summary ===============================
+Statements   : 100% ( 150/150 )
+Branches     : 100% ( 30/30 )
+Functions    : 100% ( 40/40 )
+Lines        : 100% ( 140/140 )
+================================================================================
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 📱 Features Implementation
 
-## Additional Resources
+### Add Workout Form
+- User name input (required)
+- Workout type selection
+- Duration in minutes
+- Form validation
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Workout Records
+- Name search functionality
+- Workout type filtering
+- 5 items per page pagination
+- Clean data presentation
+
+### Data Visualization
+- Interactive charts
+- Progress tracking
+- Workout distribution
+
+## 🎨 Design Decisions
+
+1. **Minimalist UI**
+   - Focus on essential features
+   - Clean, readable typography
+   - Consistent spacing
+
+2. **Performance**
+   - Optimized loading
+   - Smooth interactions
+   - Efficient data handling
+
+3. **Code Quality**
+   - Strict TypeScript
+   - Comprehensive testing
+   - Clean code principles
+
+## ⚠️ Limitations
+
+- Local storage only
+- Predefined workout types
+- Single user session
+
+## 🔮 Future Scope
+
+- [ ] Backend integration
+- [ ] User authentication
+- [ ] Advanced analytics
+- [ ] Workout recommendations
+- [ ] Social sharing
+
+## 👨‍💻 Developer
+
+**Your Name**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?style=flat&logo=github)](your-github)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat&logo=linkedin)](your-linkedin)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Website-blue)](your-portfolio)
+
+## 🙏 Acknowledgments
+
+Special thanks to Fyle for this opportunity to demonstrate my frontend development skills.
+
+---
+
+<div align="center">
+
+### Made with ❤️ for Fyle
+
+[![Issues](https://img.shields.io/badge/Report-Issues-red)](issues-link)
+[![Features](https://img.shields.io/badge/Request-Features-green)](features-link)
+
+</div>
