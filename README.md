@@ -1,13 +1,14 @@
 <div align="left">
-    <img src="ss/logo.png" alt="Fyle Logo" width="80" align="left"/>
-    <div align="left" style="padding-left: 100px">
-        <h1 style="font-size: 5rem; margin: 0; padding: 0; color: #666; font-weight: bold; transform: scale(1.1); transform-origin: left">
+    <img src="ss/logo.png" alt="Fyle Logo" width="80" style="float: left; margin-right: 15px;"/> <!-- Reduced margin -->
+    <div style="padding-left: 20px"> <!-- Reduced padding -->
+        <h1 style="text-decoration: none; margin: 0; padding: 0; color: #666; font-weight: bold">
             Fyle Frontend Challenge
         </h1>
     </div>
 </div>
 
 <br clear="both">
+
 
 A smart workout tracking app built using Angular 14
 
