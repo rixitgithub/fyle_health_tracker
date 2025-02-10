@@ -16,16 +16,17 @@ import { WorkoutService } from '../../services/workout.service';
 export class WorkoutFormComponent implements OnInit {
   name = '';
   workoutType = '';
-  minutes = 0;
+  minutes = 30;
   workoutTypes: string[] = [];
 
   constructor(private workoutService: WorkoutService) { }
 
   ngOnInit() {
+    // Get the workout types from the service
     this.workoutTypes = this.workoutService.getWorkoutTypes();
-    console.log('Available workout types:', this.workoutTypes);
   }
 
+  // Add a workout to the service
   onSubmit(form: NgForm): void {
     if (form.valid) {
       this.workoutService.addWorkout(this.name, {
@@ -33,11 +34,10 @@ export class WorkoutFormComponent implements OnInit {
         minutes: this.minutes
       });
 
-      // Reset form and model values properly
       form.resetForm();
       this.name = '';
       this.workoutType = '';
-      this.minutes = 0;
+      this.minutes = 30;
     }
   }
 }

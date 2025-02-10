@@ -8,7 +8,7 @@ import { User, Workout } from '../models/workout';
 export class WorkoutService {
   private readonly STORAGE_KEY = 'workoutData';
   private usersSubject = new BehaviorSubject<User[]>(this.getInitialData());
-  
+
   constructor() {
     this.loadFromLocalStorage();
   }
@@ -69,41 +69,40 @@ export class WorkoutService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
   }
 
-  getUsers(): Observable<User[]> {
-    return this.usersSubject.asObservable();
-  }
-
-  // Fix in workout.service.ts
-addWorkout(userName: string, workout: Workout): void {
-  if (
-    !userName.trim() ||
-    !workout.type ||
-    !workout.minutes ||
-    workout.minutes <= 0
-  ) {
-    return;
-  }
-
-  const users = this.usersSubject.value;
-  
-  // Get next ID properly
-  const nextId = users.length > 0 
-    ? Math.max(...users.map(u => u.id)) + 1 
-    : 1;
-
-  let user = users.find(u => u.name === userName);
-
-  if (!user) {
-    user = { id: nextId, name: userName, workouts: [] };
-    users.push(user);
-  }
-
-  user.workouts.push({ ...workout });
-  this.usersSubject.next([...users]);
-  this.saveToLocalStorage(this.usersSubject.value);
-}
-
+  // Sends workout types to form and filter by type dropdown
   getWorkoutTypes(): string[] {
     return ['Running', 'Cycling', 'Swimming', 'Yoga', 'Weight Training'];
+  }
+  // Adds a workout to the user's workout list
+  addWorkout(userName: string, workout: Workout): void {
+    if (
+      !userName.trim() ||
+      !workout.type ||
+      !workout.minutes ||
+      workout.minutes <= 0
+    ) {
+      return;
+    }
+
+    const users = this.usersSubject.value;
+
+    const nextId = users.length > 0
+      ? Math.max(...users.map(u => u.id)) + 1
+      : 1;
+
+    let user = users.find(u => u.name === userName);
+
+    if (!user) {
+      user = { id: nextId, name: userName, workouts: [] };
+      users.push(user);
+    }
+
+    user.workouts.push({ ...workout });
+    this.usersSubject.next([...users]);
+    this.saveToLocalStorage(this.usersSubject.value);
+  }
+  // Returns the list of users
+  getUsers(): Observable<User[]> {
+    return this.usersSubject.asObservable();
   }
 }

@@ -9,26 +9,22 @@ describe('WorkoutFormComponent', () => {
   let mockWorkoutService: jasmine.SpyObj<WorkoutService>;
 
   beforeEach(async () => {
-    // Create a spy object for WorkoutService with required methods
-    mockWorkoutService = jasmine.createSpyObj<WorkoutService>('WorkoutService', [
-      'getWorkoutTypes',
-      'addWorkout'
-    ]);
+    mockWorkoutService = jasmine.createSpyObj<WorkoutService>(
+      'WorkoutService',
+      ['getWorkoutTypes', 'addWorkout']
+    );
+
+    // Provide the stub for workout types
+    mockWorkoutService.getWorkoutTypes.and.returnValue(['Running', 'Cycling']);
 
     await TestBed.configureTestingModule({
-      imports: [WorkoutFormComponent], // Import standalone component
-      providers: [
-        { provide: WorkoutService, useValue: mockWorkoutService }
-      ]
+      imports: [WorkoutFormComponent],
+      providers: [{ provide: WorkoutService, useValue: mockWorkoutService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WorkoutFormComponent);
     component = fixture.componentInstance;
-
-    // Mock return value for service method
-    mockWorkoutService.getWorkoutTypes.and.returnValue(['Running', 'Cycling']);
-    
-    fixture.detectChanges(); // Triggers ngOnInit
+    fixture.detectChanges(); // triggers ngOnInit
   });
 
   it('should create the component', () => {
@@ -40,58 +36,58 @@ describe('WorkoutFormComponent', () => {
     expect(component.workoutTypes).toEqual(['Running', 'Cycling']);
   });
 
-  it('should have initial form values set to empty/zero', () => {
+  // Now expecting minutes to be 30 by default (and reset to 30 after submit)
+  it('should have initial form values set to empty and minutes to 30', () => {
     expect(component.name).toBe('');
     expect(component.workoutType).toBe('');
-    expect(component.minutes).toBe(0);
+    expect(component.minutes).toBe(30);
   });
 
   describe('onSubmit', () => {
     it('should call service and reset form when valid', () => {
-      const mockForm = { valid: true, resetForm: jasmine.createSpy() } as unknown as NgForm;
-      
+      const mockForm = {
+        valid: true,
+        resetForm: jasmine.createSpy(),
+      } as unknown as NgForm;
+
+      // Set form values
       component.name = 'Morning Run';
       component.workoutType = 'Running';
       component.minutes = 45;
 
       component.onSubmit(mockForm);
 
-      // Verify service call
-      expect(mockWorkoutService.addWorkout).toHaveBeenCalledWith('Morning Run', {
-        type: 'Running',
-        minutes: 45
-      });
+      // Verify the service was called with the correct parameters
+      expect(mockWorkoutService.addWorkout).toHaveBeenCalledWith(
+        'Morning Run',
+        {
+          type: 'Running',
+          minutes: 45,
+        }
+      );
 
-      // Verify form reset
+      // Verify that the form was reset and component properties reset to their defaults.
       expect(mockForm.resetForm).toHaveBeenCalled();
       expect(component.name).toBe('');
       expect(component.workoutType).toBe('');
-      expect(component.minutes).toBe(0);
+      // Minutes should be reset to 30
+      expect(component.minutes).toBe(30);
     });
 
     it('should not call service when form is invalid', () => {
       const mockForm = { valid: false } as NgForm;
-      
       component.onSubmit(mockForm);
       expect(mockWorkoutService.addWorkout).not.toHaveBeenCalled();
     });
   });
 
   it('should render workout types in the select options', () => {
-    fixture.detectChanges(); // Update template with initialized workoutTypes
-
+    fixture.detectChanges();
     const select = fixture.nativeElement.querySelector('select');
     const options = select.querySelectorAll('option');
-
-    // Includes default option + 2 mock types
-    expect(options.length).toBe(3); 
+    // Assuming the first option is a placeholder, we expect 3 options total.
+    expect(options.length).toBe(3);
     expect(options[1].textContent).toContain('Running');
     expect(options[2].textContent).toContain('Cycling');
-  });
-
-  it('should log available workout types on init', () => {
-    const consoleSpy = spyOn(console, 'log');
-    component.ngOnInit();
-    expect(consoleSpy).toHaveBeenCalledWith('Available workout types:', ['Running', 'Cycling']);
   });
 });

@@ -1,108 +1,195 @@
 <div class="card shadow-lg bg-[#d6d6b1] rounded-lg">
-    <div class="card-header">
-      <h2 class="text-6xl teko-add text-black mb-1 mt-2">Workout Records</h2>
+  <div class="card-header">
+    <h2 class="text-6xl teko-add text-black mb-1 mt-2">Workout Records</h2>
+  </div>
+
+  <div class="card-body">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <!-- Filter by searching the name -->
+      <div class="w-full relative">
+        <label
+          for="searchName"
+          class="block text-sm font-medium text-black mb-2"
+          >Search by name</label
+        >
+        <div class="flex items-center relative">
+          <span class="absolute left-2 text-black flex items-center">
+            <i class="material-icons">search</i>
+          </span>
+
+          <input
+            id="searchName"
+            type="text"
+            [(ngModel)]="searchName"
+            (ngModelChange)="applyFilters()"
+            class="w-full p-2 pl-10 pr-10 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+          />
+
+          <button
+            (click)="clearSearch()"
+            class="absolute right-2 p-2 text-black hover:text-white"
+          >
+            &#10005;
+          </button>
+        </div>
+      </div>
+      <!-- Filter by workout type -->
+      <div class="w-full">
+        <label
+          for="workoutType"
+          class="block text-sm font-medium text-black mb-2"
+          >Filter by workout type</label
+        >
+        <select
+          id="workoutType"
+          [(ngModel)]="selectedType"
+          (ngModelChange)="applyFilters()"
+          class="w-full p-2 border border-gray-700 rounded-md bg-[#c2c29d] text-black focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+        >
+          <option value="">All Types</option>
+          <option *ngFor="let type of workoutTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
     </div>
-    
-    <div class="card-body">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div class="w-full relative">
-          <label for="searchName" class="block text-sm font-medium text-black mb-2">Search by name</label>
-          <div class="flex items-center relative">
-            <span class="absolute left-2 text-black flex items-center">
-              <i class="material-icons">search</i>
-            </span>
-  
-            <input
-              id="searchName"
-              type="text"
-              [(ngModel)]="searchName"
-              (ngModelChange)="applyFilters()"
-              class="w-full p-2 pl-10 pr-10 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
-            />
-  
-            <button
-              (click)="clearSearch()"
-              class="absolute right-2 p-2 text-black hover:text-white"
-            >
-              &#10005;
-            </button>
-          </div>
-        </div>
-        
-        <div class="w-full">
-          <label for="workoutType" class="block text-sm font-medium text-black mb-2">Filter by workout type</label>
-          <select id="workoutType" [(ngModel)]="selectedType" (ngModelChange)="applyFilters()" class="w-full p-2 border border-gray-700 rounded-md bg-[#c2c29d] text-black focus:outline-none focus:ring-2 focus:ring-[#a5a58d]">
-            <option value="">All Types</option>
-            <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
-          </select>
-        </div>
+    <!-- Display the error message if filteres result not found -->
+    <div class="overflow-x-auto bg-[#c2c29d] rounded-lg">
+      <div
+        *ngIf="pagedData.length === 0"
+        class="flex flex-col items-center justify-center py-16 px-4 text-black"
+      >
+        <div class="text-6xl mb-4">🏋️‍♂️💨</div>
+        <h3 class="text-2xl font-bold mb-2">
+          Whoops! Looks like these records took a rest day!
+        </h3>
+        <p class="text-lg text-center max-w-md">
+          <span class="block mb-2 text-sm"
+            >Either your search was too strong and scared away all the
+            data,</span
+          >
+          <span class="block mb-2 text-sm"
+            >or these workout records are still doing their warm-up
+            exercises!</span
+          >
+          <span class="block italic text-s"
+            >(Try adjusting your search or filters)</span
+          >
+        </p>
       </div>
-  
-      <div class="overflow-x-auto bg-[#c2c29d] rounded-lg">
-        <div *ngIf="pagedData.length === 0" class="flex flex-col items-center justify-center py-16 px-4 text-black">
-          <div class="text-6xl mb-4">🏋️‍♂️💨</div>
-          <h3 class="text-2xl font-bold mb-2">Whoops! Looks like these records took a rest day!</h3>
-          <p class="text-lg text-center max-w-md">
-            <span class="block mb-2 text-sm">Either your search was too strong and scared away all the data,</span>
-            <span class="block mb-2 text-sm">or these workout records are still doing their warm-up exercises!</span>
-            <span class="block italic text-s">(Try adjusting your search or filters)</span>
-          </p>
-        </div>
-  
-        <table *ngIf="pagedData.length > 0" mat-table [dataSource]="pagedData" class="w-full text-black">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#b0b08b] text-black font-semibold">Name</th>
-            <td mat-cell *matCellDef="let user" class="py-4 text-black">{{user.name}}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="workouts">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#b0b08b] text-black font-semibold">Workouts</th>
-            <td mat-cell *matCellDef="let user" class="py-4">
-              <div *ngFor="let workout of user.workouts" class="mb-1">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                      [ngClass]="{
-                        'bg-[#c4b484] text-black': workout.type === 'Running',
-                        'bg-[#a3c4bc] text-black': workout.type === 'Swimming',
-                        'bg-[#b0a3c4] text-black': workout.type === 'Cycling',
-                        'bg-[#c4a3a3] text-black': workout.type === 'Yoga',
-                        'bg-[#a3c4a3] text-black': workout.type === 'Weight Training'
-                      }">
-                  {{workout.type}} - {{workout.minutes}} min
-                </span>
-              </div>
-            </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="sessions">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#b0b08b] text-black font-semibold text-center">Total Sessions</th>
-            <td mat-cell *matCellDef="let user" class="py-4 text-center">{{ getTotalSessions(user) }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="minutes">
-            <th mat-header-cell *matHeaderCellDef class="bg-[#b0b08b] text-black font-semibold text-center">Total Workout Time</th>
-            <td mat-cell *matCellDef="let user" class="py-4 text-center">{{ getTotalMinutes(user) }}</td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-[#b0b08b] transition-colors duration-150"></tr>
-        </table>
-      </div>
-  
-      <div class="flex items-center gap-3 mt-3 px-3 py-2 rounded-md w-fit mx-auto">
-        <span class="text-black text-sm">{{ getPaginationText() }}</span>
-  
-        <select [(ngModel)]="pageSize" (change)="updatePagedData()" 
-        class="bg-[#c2c29d] text-black text-sm border border-gray-600 rounded px-2 py-1 focus:outline-none w-20">
-        <option *ngFor="let size of [5, 10, 25]" [value]="size">{{ size }}</option>
+
+      <!-- Display the table with the data -->
+      <table
+        *ngIf="pagedData.length > 0"
+        mat-table
+        [dataSource]="pagedData"
+        class="w-full text-black"
+      >
+        <ng-container matColumnDef="name">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="bg-[#b0b08b] text-black font-semibold"
+          >
+            Name
+          </th>
+          <td mat-cell *matCellDef="let user" class="py-4 text-black">
+            {{ user.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="workouts">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="bg-[#b0b08b] text-black font-semibold"
+          >
+            Workouts
+          </th>
+          <td mat-cell *matCellDef="let user" class="py-4">
+            <div *ngFor="let workout of user.workouts" class="mb-1">
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-[#c4b484] text-black': workout.type === 'Running',
+                  'bg-[#a3c4bc] text-black': workout.type === 'Swimming',
+                  'bg-[#b0a3c4] text-black': workout.type === 'Cycling',
+                  'bg-[#c4a3a3] text-black': workout.type === 'Yoga',
+                  'bg-[#a3c4a3] text-black': workout.type === 'Weight Training'
+                }"
+              >
+                {{ workout.type }} - {{ workout.minutes }} min
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sessions">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="bg-[#b0b08b] text-black font-semibold text-center"
+          >
+            Total Sessions
+          </th>
+          <td mat-cell *matCellDef="let user" class="py-4 text-center">
+            {{ getTotalSessions(user) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="minutes">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="bg-[#b0b08b] text-black font-semibold text-center"
+          >
+            Total Workout Time
+          </th>
+          <td mat-cell *matCellDef="let user" class="py-4 text-center">
+            {{ getTotalMinutes(user) }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="hover:bg-[#b0b08b] transition-colors duration-150"
+        ></tr>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div
+      class="flex items-center gap-3 mt-3 px-3 py-2 rounded-md w-fit mx-auto"
+    >
+      <span class="text-black text-sm">{{ getPaginationText() }}</span>
+
+      <select
+        [(ngModel)]="pageSize"
+        (change)="updatePagedData()"
+        class="bg-[#c2c29d] text-black text-sm border border-gray-600 rounded px-2 py-1 focus:outline-none w-20"
+      >
+        <option *ngFor="let size of [5, 10, 25]" [value]="size">
+          {{ size }}
+        </option>
       </select>
-  
-        <button (click)="previousPage()" [disabled]="currentPage === 0" class="px-2 py-1 text-black bg-[#a5a58d] rounded hover:bg-[#8f8f70] disabled:opacity-50">
-          &larr;
-        </button>
-        <span class="text-black text-sm">{{ currentPage + 1 }}</span>
-        <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= filteredData.length" class="px-2 py-1 text-black bg-[#a5a58d] rounded hover:bg-[#8f8f70] disabled:opacity-50">
-          &rarr;
-        </button>
-      </div>
+
+      <button
+        (click)="previousPage()"
+        [disabled]="currentPage === 0"
+        class="px-2 py-1 text-black bg-[#a5a58d] rounded hover:bg-[#8f8f70] disabled:opacity-50"
+      >
+        &larr;
+      </button>
+      <span class="text-black text-sm">{{ currentPage + 1 }}</span>
+      <button
+        (click)="nextPage()"
+        [disabled]="(currentPage + 1) * pageSize >= filteredData.length"
+        class="px-2 py-1 text-black bg-[#a5a58d] rounded hover:bg-[#8f8f70] disabled:opacity-50"
+      >
+        &rarr;
+      </button>
     </div>
   </div>
+</div>

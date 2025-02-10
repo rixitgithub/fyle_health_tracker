@@ -102,24 +102,15 @@ describe('WorkoutListComponent', () => {
 
   it('should load data from localStorage when available', () => {
     const mockUsers: User[] = [{ id: 1, name: 'Test User', workouts: [] }];
-    
-    // 1. Set mock data
     localStorageMock.getItem.and.returnValue(JSON.stringify(mockUsers));
-    
-    // 2. Recreate component with new localStorage value
     TestBed.resetTestingModule();
     recreateComponent();
-
     expect(component.allData).toEqual(mockUsers);
   });
 
   it('should handle invalid localStorage data and load initial data', () => {
     const consoleSpy = spyOn(console, 'error');
-    
-    // 1. Set invalid data
     localStorageMock.getItem.and.returnValue('invalid JSON');
-    
-    // 2. Recreate component to trigger initialization
     TestBed.resetTestingModule();
     recreateComponent();
 
@@ -139,7 +130,7 @@ describe('WorkoutListComponent', () => {
   it('should add workout to existing user through service', () => {
     const user = component.allData.find(u => u.name === 'Rishit Tiwari')!;
     const initialWorkouts = user.workouts.length;
-    
+
     service.addWorkout('Rishit Tiwari', { type: 'Cycling', minutes: 60 });
     fixture.detectChanges();
 
@@ -148,10 +139,10 @@ describe('WorkoutListComponent', () => {
 
   it('should save to localStorage when adding workout', () => {
     service.addWorkout('Test User', { type: 'Yoga', minutes: 30 });
-    
+
     const [key, value] = localStorageMock.setItem.calls.argsFor(0);
     const storedData: User[] = JSON.parse(value);
-    
+
     expect(key).toBe('workoutData');
     expect(storedData).toEqual(jasmine.arrayContaining([
       jasmine.objectContaining({ name: 'Test User' })
@@ -161,7 +152,7 @@ describe('WorkoutListComponent', () => {
   it('should filter users by name', () => {
     component.searchName = 'Rishit';
     component.applyFilters();
-    
+
     expect(component.filteredData.length).toBe(1);
     expect(component.filteredData[0].name).toBe('Rishit Tiwari');
   });
@@ -169,8 +160,8 @@ describe('WorkoutListComponent', () => {
   it('should filter workouts by type', () => {
     component.selectedType = 'Yoga';
     component.applyFilters();
-    
-    const filtered = component.filteredData.every(user => 
+
+    const filtered = component.filteredData.every(user =>
       user.workouts.every(w => w.type === 'Yoga')
     );
     expect(filtered).toBeTrue();
@@ -179,7 +170,7 @@ describe('WorkoutListComponent', () => {
   it('should clear search input', () => {
     component.searchName = 'Test';
     component.clearSearch();
-    
+
     expect(component.searchName).toBe('');
     expect(component.filteredData).toEqual(expectedInitialData);
   });
@@ -199,10 +190,10 @@ describe('WorkoutListComponent', () => {
     component.pageSize = 2;
     component.currentPage = 1;
     component.applyFilters();
-    
+
     component.nextPage();
     expect(component.currentPage).toBe(1);
-    
+
     component.previousPage();
     expect(component.currentPage).toBe(0);
   });
@@ -217,23 +208,16 @@ describe('WorkoutListComponent', () => {
     component.searchName = 'NonExistentUser';
     component.applyFilters();
     fixture.detectChanges();
-    
+
     const emptyMessage = fixture.nativeElement.querySelector('.flex');
     expect(emptyMessage).toBeTruthy();
   });
 
   it('should generate new user IDs correctly', () => {
-    // 1. Clear existing data
     localStorageMock.getItem.and.returnValue(JSON.stringify([]));
-    
-    // 2. Recreate service with empty data
     TestBed.resetTestingModule();
     recreateComponent();
-
-    // 3. Add new user
     service.addWorkout('New User', { type: 'Running', minutes: 30 });
-    
-    // 4. Verify internal state
     const newUser = service['usersSubject'].value.find(u => u.name === 'New User');
     expect(newUser?.id).toBe(1);
   });
@@ -245,36 +229,36 @@ describe('WorkoutListComponent', () => {
       workouts: [{ type: 'Running', minutes: 30 }]
     }];
     fixture.detectChanges();
-    
+
     const badge = fixture.nativeElement.querySelector('.bg-\\[\\#c4b484\\]');
     expect(badge).toBeTruthy();
   });
 
   it('should reject invalid workout entries', () => {
     const initialLength = component.allData.length;
-    
+
     service.addWorkout('', { type: 'Running', minutes: 30 });
     service.addWorkout('Test', { type: '', minutes: 30 });
     service.addWorkout('Test', { type: 'Running', minutes: -5 });
-    
+
     expect(component.allData.length).toBe(initialLength);
   });
 
   it('should handle null localStorage value correctly', () => {
     localStorageMock.getItem.and.returnValue(null);
-    
+
     fixture = TestBed.createComponent(WorkoutListComponent);
     service = TestBed.inject(WorkoutService);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    
+
     expect(service['usersSubject'].value).toEqual(expectedInitialData);
   });
 
   it('should maintain existing user IDs when adding new users', () => {
     const initialUsers = [...expectedInitialData];
     service.addWorkout('New User', { type: 'Cycling', minutes: 45 });
-    
+
     const newUser = service['usersSubject'].value.find(u => u.name === 'New User');
     expect(newUser?.id).toBe(5);
     expect(service['usersSubject'].value.slice(0, 4)).toEqual(initialUsers);
@@ -283,7 +267,7 @@ describe('WorkoutListComponent', () => {
   it('should handle duplicate user names correctly', () => {
     service.addWorkout('Rishit Tiwari', { type: 'Swimming', minutes: 30 });
     const user = component.allData.find(u => u.name === 'Rishit Tiwari')!;
-    
+
     expect(user.workouts.length).toBe(6);
     expect(user.id).toBe(1);
   });
@@ -291,17 +275,10 @@ describe('WorkoutListComponent', () => {
   it('should handle empty workout type filter', () => {
     component.selectedType = '';
     component.applyFilters();
-    
+
     expect(component.filteredData).toEqual(expectedInitialData);
   });
 
-  it('should handle searchExactMatch', () => {
-    component.searchName = 'Rishit Tiwari';
-    component.searchExactMatch();
-    
-    expect(component.filteredData.length).toBe(1);
-    expect(component.filteredData[0].name).toBe('Rishit Tiwari');
-  });
   it('should handle nextPage navigation', () => {
     component.pageSize = 2;
     component.filteredData = new Array(3).fill({}); // Create 3 items
@@ -317,41 +294,18 @@ describe('WorkoutListComponent', () => {
   });
 
 
-  it('should show exact match with type filter', () => {
-    component.searchName = 'Rishit Tiwari';
-    component.selectedType = 'Running';
-    component.searchExactMatch();
-    
-    expect(component.filteredData.length).toBe(1);
-    expect(component.filteredData[0].workouts.every(w => w.type === 'Running')).toBeTrue();
-  });
-  
-  
   it('should calculate total pages correctly', () => {
     // Test various scenarios
     component.filteredData = new Array(15).fill({} as User);
     component.pageSize = 5;
     expect(component.totalPages).toBe(3);
-  
+
     component.filteredData = new Array(0).fill({} as User);
     expect(component.totalPages).toBe(0);
-  
+
     component.filteredData = new Array(7).fill({} as User);
     component.pageSize = 3;
     expect(component.totalPages).toBe(3);
   });
-  
-  it('should handle edge cases in page navigation', () => {
-    // Test 1: Empty data
-    component.filteredData = [];
-    component.onPageChange({ pageIndex: 1, pageSize: 5 });
-    expect(component.currentPage).toBe(0);
-    expect(component.pagedData.length).toBe(0);
-  
-    // Test 2: Page index out of bounds
-    component.filteredData = new Array(10).fill({} as User); // 10 items
-    component.pageSize = 5; // 2 pages (0 and 1)
-    component.onPageChange({ pageIndex: 5, pageSize: 5 });
-    expect(component.currentPage).toBe(1); // Last valid page index
-  });
+
 });

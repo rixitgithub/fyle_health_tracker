@@ -1,50 +1,88 @@
 <div class="max-w-lg mx-auto p-8 rounded-lg shadow-lg">
-    <h2 class="text-6xl teko-add text-center text-black mb-6">Add Workout</h2>
-    <form #workoutForm="ngForm" (ngSubmit)="onSubmit(workoutForm)">
-      <!-- Name Input -->
-      <div class="mb-6">
-        <label for="name" class="block text-black text-sm font-medium mb-2">
-          Name <span class="text-red-500 mb-1">*</span>
-        </label>
-        <input type="text" id="name" name="name" [(ngModel)]="name" #nameInput="ngModel" required 
-               maxlength="20"
-               class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]" />
-        <div *ngIf="nameInput.invalid && nameInput.touched" class="text-red-500 text-sm mt-1">
-          Name is required and must be under 20 characters
-        </div>
+  <h2 class="text-6xl teko-add text-center text-black mb-6">Add Workout</h2>
+  <form #workoutForm="ngForm" (ngSubmit)="onSubmit(workoutForm)">
+    <!-- Name Input -->
+    <div class="mb-6">
+      <label for="name" class="block text-black text-sm font-medium mb-2">
+        Name <span class="text-red-500 mb-1">*</span>
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="name"
+        #nameInput="ngModel"
+        required
+        maxlength="20"
+        class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+      />
+      <div
+        *ngIf="nameInput.invalid && nameInput.touched"
+        class="text-red-500 text-sm mt-1"
+      >
+        Name is required and must be under 20 characters
       </div>
-  
-      <!-- Workout Type Selection -->
-      <div class="mb-6">
-        <label for="workoutType" class="block text-black text-sm font-medium mb-2">
-          Workout Type <span class="text-red-500 mb-1">*</span>
-        </label>
-        <select id="workoutType" name="workoutType" [(ngModel)]="workoutType" #typeSelect="ngModel" required
-                class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]">
-          <option value="" disabled selected>Select a workout type</option>
-          <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
-        </select>
-        <div *ngIf="typeSelect.invalid && typeSelect.touched" class="text-red-500 text-sm mt-1">
-          Workout type is required
-        </div>
+    </div>
+
+    <!-- Workout Type Selection -->
+    <div class="mb-6">
+      <label
+        for="workoutType"
+        class="block text-black text-sm font-medium mb-2"
+      >
+        Workout Type <span class="text-red-500 mb-1">*</span>
+      </label>
+      <select
+        id="workoutType"
+        name="workoutType"
+        [(ngModel)]="workoutType"
+        #typeSelect="ngModel"
+        required
+        class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+      >
+        <option value="" disabled selected>Select a workout type</option>
+        <option *ngFor="let type of workoutTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+      <div
+        *ngIf="typeSelect.invalid && typeSelect.touched"
+        class="text-red-500 text-sm mt-1"
+      >
+        Workout type is required
       </div>
-  
-      <!-- Minutes Input -->
-      <div class="mb-6">
-        <label for="minutes" class="block text-black text-sm font-medium mb-2">
-          Minutes <span class="text-red-500 mb-1">*</span>
-        </label>
-        <input type="number" id="minutes" name="minutes" [(ngModel)]="minutes" #minutesInput="ngModel" required
-               min="1" max="300"
-               class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]" />
-        <div *ngIf="minutesInput.invalid && minutesInput.touched" class="text-red-500 text-sm mt-1">
-          Minutes must be between 1 and 300
-        </div>
+    </div>
+
+    <!-- Minutes Input -->
+    <div class="mb-6">
+      <label for="minutes" class="block text-black text-sm font-medium mb-2">
+        Minutes <span class="text-red-500 mb-1">*</span>
+      </label>
+      <input
+        type="number"
+        id="minutes"
+        name="minutes"
+        [(ngModel)]="minutes"
+        #minutesInput="ngModel"
+        required
+        min="1"
+        max="300"
+        class="w-full p-3 border border-gray-700 rounded-md bg-[#c2c29d] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+      />
+      <div
+        *ngIf="minutesInput.invalid && minutesInput.touched"
+        class="text-red-500 text-sm mt-1"
+      >
+        Minutes must be between 1 and 300
       </div>
-  
-      <button type="submit" [disabled]="!workoutForm.valid"
-              class="w-full py-3 bg-[#a5a58d] text-black font-semibold rounded-md hover:bg-[#8f8f77] focus:outline-none focus:ring-2 focus:ring-[#a5a58d]">
-        Add Workout
-      </button>
-    </form>
-  </div>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="!workoutForm.valid"
+      class="w-full py-3 bg-[#a5a58d] text-black font-semibold rounded-md hover:bg-[#8f8f77] focus:outline-none focus:ring-2 focus:ring-[#a5a58d]"
+    >
+      Add Workout
+    </button>
+  </form>
+</div>

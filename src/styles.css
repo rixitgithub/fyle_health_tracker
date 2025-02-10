@@ -47,9 +47,6 @@ body {
   background: transparent !important;
 }
 
-.mat-mdc-paginator {
-  background: transparent !important;
-}
 
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
@@ -64,7 +61,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #ffffff00; 
+  background: #ffffff00;
   border-radius: 4px;
 }
 
@@ -75,4 +72,21 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(24, 160, 139 / 0.8);
+}
+
+
+.mat-paginator-container {
+  @apply flex justify-center items-center gap-4 p-4;
+}
+
+.mat-select-trigger {
+  @apply bg-[#c2c29d] text-black rounded-md px-3 py-2 focus:outline-none;
+}
+
+.mat-icon-button {
+  @apply text-black hover:text-white hover:bg-gray-500 rounded-md;
+}
+
+.mat-paginator-range-label {
+  @apply text-sm text-gray-700 font-semibold;
 }
