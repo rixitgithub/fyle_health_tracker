@@ -5,7 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { User, Workout } from '../../models/workout';
+import { User } from '../../models/workout';
 
 describe('WorkoutListComponent', () => {
   let component: WorkoutListComponent;
@@ -27,31 +27,27 @@ describe('WorkoutListComponent', () => {
         { type: 'Cycling', minutes: 45 },
         { type: 'Swimming', minutes: 20 },
         { type: 'Yoga', minutes: 25 },
-        { type: 'Weight Training', minutes: 20 }
-      ]
+        { type: 'Weight Training', minutes: 20 },
+      ],
     },
     {
       id: 2,
       name: 'Rudraksh Tiwari',
       workouts: [
         { type: 'Running', minutes: 40 },
-        { type: 'Weight Training', minutes: 10 }
-      ]
+        { type: 'Weight Training', minutes: 10 },
+      ],
     },
     {
       id: 3,
       name: 'Ritesh Kumar',
-      workouts: [
-        { type: 'Swimming', minutes: 40 }
-      ]
+      workouts: [{ type: 'Swimming', minutes: 40 }],
     },
     {
       id: 4,
       name: 'Rachna',
-      workouts: [
-        { type: 'Yoga', minutes: 50 }
-      ]
-    }
+      workouts: [{ type: 'Yoga', minutes: 50 }],
+    },
   ];
 
   beforeEach(async () => {
@@ -71,10 +67,76 @@ describe('WorkoutListComponent', () => {
         FormsModule,
         MatTableModule,
         MatPaginatorModule,
-        WorkoutListComponent
+        WorkoutListComponent,
       ],
-      providers: [WorkoutService]
+      providers: [WorkoutService],
     }).compileComponents();
+  });
+
+  describe('onPageSizeChange', () => {
+    let mockEvent: Event;
+
+    beforeEach(() => {
+      component.pageSize = 5;
+      component.currentPage = 2;
+      component.filteredData = new Array(15).fill({} as User);
+      spyOn(component, 'updatePagedData').and.callThrough();
+      component.updatePagedData();
+    });
+
+    it('should update page size and reset to first page', () => {
+      mockEvent = { target: { value: '10' } } as unknown as Event;
+      component.onPageSizeChange(mockEvent);
+
+      expect(component.pageSize).toBe(10);
+      expect(component.currentPage).toBe(0);
+      expect(component.updatePagedData).toHaveBeenCalled();
+    });
+
+    it('should handle invalid values gracefully', () => {
+      mockEvent = { target: { value: 'invalid' } } as unknown as Event;
+      component.onPageSizeChange(mockEvent);
+
+      expect(component.pageSize).toBeNaN();
+      expect(component.currentPage).toBe(0);
+      expect(component.updatePagedData).toHaveBeenCalled();
+    });
+
+    it('should reset to first page even when same size is selected', () => {
+      mockEvent = { target: { value: '5' } } as unknown as Event;
+      component.onPageSizeChange(mockEvent);
+
+      expect(component.pageSize).toBe(5);
+      expect(component.currentPage).toBe(0);
+      expect(component.updatePagedData).toHaveBeenCalled();
+    });
+
+    it('should handle minimum page size (1)', () => {
+      mockEvent = { target: { value: '1' } } as unknown as Event;
+      component.onPageSizeChange(mockEvent);
+
+      expect(component.pageSize).toBe(1);
+      expect(component.currentPage).toBe(0);
+      expect(component.pagedData.length).toBe(1);
+    });
+
+    it('should update paged data correctly after size change', () => {
+      mockEvent = { target: { value: '3' } } as unknown as Event;
+      component.onPageSizeChange(mockEvent);
+
+      // Verify the actual data slicing
+      expect(component.pagedData.length).toBe(3);
+      expect(component.pagedData).toEqual(component.filteredData.slice(0, 3));
+    });
+
+    it('should maintain page 0 through multiple size changes', () => {
+      const sizes = ['5', '10', '25'];
+      sizes.forEach((size) => {
+        mockEvent = { target: { value: size } } as unknown as Event;
+        component.onPageSizeChange(mockEvent);
+        expect(component.currentPage).toBe(0);
+      });
+    });
   });
 
   const recreateComponent = () => {
@@ -115,7 +177,10 @@ describe('WorkoutListComponent', () => {
     recreateComponent();
 
     expect(component.allData).toEqual(expectedInitialData);
-    expect(consoleSpy).toHaveBeenCalledWith('Error parsing localStorage data:', jasmine.any(Error));
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Error parsing localStorage data:',
+      jasmine.any(Error)
+    );
   });
 
   it('should add new user through service', () => {
@@ -124,11 +189,11 @@ describe('WorkoutListComponent', () => {
     fixture.detectChanges();
 
     expect(component.allData.length).toBe(initialLength + 1);
-    expect(component.allData.some(u => u.name === 'New User')).toBeTrue();
+    expect(component.allData.some((u) => u.name === 'New User')).toBeTrue();
   });
 
   it('should add workout to existing user through service', () => {
-    const user = component.allData.find(u => u.name === 'Rishit Tiwari')!;
+    const user = component.allData.find((u) => u.name === 'Rishit Tiwari')!;
     const initialWorkouts = user.workouts.length;
 
     service.addWorkout('Rishit Tiwari', { type: 'Cycling', minutes: 60 });
@@ -144,9 +209,9 @@ describe('WorkoutListComponent', () => {
     const storedData: User[] = JSON.parse(value);
 
     expect(key).toBe('workoutData');
-    expect(storedData).toEqual(jasmine.arrayContaining([
-      jasmine.objectContaining({ name: 'Test User' })
-    ]));
+    expect(storedData).toEqual(
+      jasmine.arrayContaining([jasmine.objectContaining({ name: 'Test User' })])
+    );
   });
 
   it('should filter users by name', () => {
@@ -161,8 +226,8 @@ describe('WorkoutListComponent', () => {
     component.selectedType = 'Yoga';
     component.applyFilters();
 
-    const filtered = component.filteredData.every(user =>
-      user.workouts.every(w => w.type === 'Yoga')
+    const filtered = component.filteredData.every((user) =>
+      user.workouts.every((w) => w.type === 'Yoga')
     );
     expect(filtered).toBeTrue();
   });
@@ -201,7 +266,9 @@ describe('WorkoutListComponent', () => {
   it('should display correct pagination text', () => {
     component.pageSize = 3;
     component.applyFilters();
-    expect(component.getPaginationText()).toBe(`1-3 of ${expectedInitialData.length}`);
+    expect(component.getPaginationText()).toBe(
+      `1-3 of ${expectedInitialData.length}`
+    );
   });
 
   it('should show empty state when no matches found', () => {
@@ -218,16 +285,20 @@ describe('WorkoutListComponent', () => {
     TestBed.resetTestingModule();
     recreateComponent();
     service.addWorkout('New User', { type: 'Running', minutes: 30 });
-    const newUser = service['usersSubject'].value.find(u => u.name === 'New User');
+    const newUser = service['usersSubject'].value.find(
+      (u) => u.name === 'New User'
+    );
     expect(newUser?.id).toBe(1);
   });
 
   it('should handle workout type colors correctly', () => {
-    component.filteredData = [{
-      id: 1,
-      name: 'Test User',
-      workouts: [{ type: 'Running', minutes: 30 }]
-    }];
+    component.filteredData = [
+      {
+        id: 1,
+        name: 'Test User',
+        workouts: [{ type: 'Running', minutes: 30 }],
+      },
+    ];
     fixture.detectChanges();
 
     const badge = fixture.nativeElement.querySelector('.bg-\\[\\#c4b484\\]');
@@ -259,14 +330,16 @@ describe('WorkoutListComponent', () => {
     const initialUsers = [...expectedInitialData];
     service.addWorkout('New User', { type: 'Cycling', minutes: 45 });
 
-    const newUser = service['usersSubject'].value.find(u => u.name === 'New User');
+    const newUser = service['usersSubject'].value.find(
+      (u) => u.name === 'New User'
+    );
     expect(newUser?.id).toBe(5);
     expect(service['usersSubject'].value.slice(0, 4)).toEqual(initialUsers);
   });
 
   it('should handle duplicate user names correctly', () => {
     service.addWorkout('Rishit Tiwari', { type: 'Swimming', minutes: 30 });
-    const user = component.allData.find(u => u.name === 'Rishit Tiwari')!;
+    const user = component.allData.find((u) => u.name === 'Rishit Tiwari')!;
 
     expect(user.workouts.length).toBe(6);
     expect(user.id).toBe(1);
@@ -293,7 +366,6 @@ describe('WorkoutListComponent', () => {
     expect(component.currentPage).toBe(0);
   });
 
-
   it('should calculate total pages correctly', () => {
     // Test various scenarios
     component.filteredData = new Array(15).fill({} as User);
@@ -307,5 +379,4 @@ describe('WorkoutListComponent', () => {
     component.pageSize = 3;
     expect(component.totalPages).toBe(3);
   });
-
 });

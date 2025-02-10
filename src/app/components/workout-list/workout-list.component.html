@@ -166,8 +166,8 @@
       <span class="text-black text-sm">{{ getPaginationText() }}</span>
 
       <select
-        [(ngModel)]="pageSize"
-        (change)="updatePagedData()"
+        (change)="onPageSizeChange($event)"
+        [value]="pageSize"
         class="bg-[#c2c29d] text-black text-sm border border-gray-600 rounded px-2 py-1 focus:outline-none w-20"
       >
         <option *ngFor="let size of [5, 10, 25]" [value]="size">
@@ -182,10 +182,14 @@
       >
         &larr;
       </button>
-      <span class="text-black text-sm">{{ currentPage + 1 }}</span>
+
+      <span class="text-black text-sm">
+        {{ filteredData.length > 0 ? currentPage + 1 : 0 }}
+      </span>
+
       <button
         (click)="nextPage()"
-        [disabled]="(currentPage + 1) * pageSize >= filteredData.length"
+        [disabled]="currentPage >= totalPages - 1"
         class="px-2 py-1 text-black bg-[#a5a58d] rounded hover:bg-[#8f8f70] disabled:opacity-50"
       >
         &rarr;
