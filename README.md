@@ -1,41 +1,96 @@
-# Fyle Frontend Challenge 🏃‍♂️
-
-<div align="center">
-  <img src="path-to-your-logo.png" alt="Fyle Logo" width="150"/>
-  <h3>Health Challenge Tracker</h3>
-  <p>A minimalist workout tracking application built with Angular 14+</p>
-
-  [![Live Demo](https://img.shields.io/badge/demo-live-green.svg)](your-demo-link)
-  [![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red)](https://angular.io)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-styled-blue)](https://tailwindcss.com)
-  
+<div align="left">
+    <img src="ss/logo.png" alt="Fyle Logo" width="80" style="float: left; margin-right: 15px;"/> <!-- Reduced margin -->
+    <div style="padding-left: 20px"> <!-- Reduced padding -->
+        <h1 style="text-decoration: none; margin: 0; padding: 0; color: #666; font-weight: bold">
+            Fyle Frontend Challenge
+        </h1>
+    </div>
 </div>
 
----
+<br clear="both">
 
-## ✨ Live Demo
 
-Check out the live application: [Health Challenge Tracker](your-deployed-url)
+A smart workout tracking app built using Angular 14
 
-## 🚀 Features
+[![Live Demo](https://img.shields.io/badge/demo-live-green.svg)]([htt](https://fyle-healthtracker.vercel.app))
+[![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red)](https://angular.io)
+[![Tailwind CSS](https://img.shields.io/badge/Styled%20with-Tailwind-blue)](https://tailwindcss.com)
 
-- **Modern UI/UX**
-  - Clean, minimalist interface
-  - Responsive design
-  - Intuitive workout logging
+##  [Live Demo ↗](https://fyle-healthtracker.vercel.app)
 
-- **Core Functionalities**
-  - Add workouts with user details
-  - Search users by name
-  - Filter by workout type
-  - Smart pagination
+<div align="center">
+  <img src="ss/fyle-screenrecorder.gif" width="800" alt="Application Demo"/>
+</div>
 
-- **Data Management**
-  - Local storage persistence
-  - Real-time updates
-  - Data validation
+## 📸 Application Showcase
 
-## 💻 Tech Stack
+<table>
+  <tr>
+    <td width="50%">
+      <img src="ss/home.png" alt="Dashboard Home"/>
+      <p align="center"><em>Dashboard: Comprehensive overview of your fitness journey</em></p>
+    </td>
+    <td width="50%">
+      <img src="ss/workout-entry.png" alt="Workout Entry Interface"/>
+      <p align="center"><em>Workout Entry: Streamlined interface for logging exercises</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="ss/entry-added.png" alt="Entry Confirmation"/>
+      <p align="center"><em>Success Confirmation: Instant feedback on workout logging</em></p>
+    </td>
+    <td width="50%">
+      <img src="ss/seach-by-name.png" alt="Search Functionality"/>
+      <p align="center"><em>Smart Search: Intelligent user search with instant results</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="ss/filter-by-type.png" alt="Workout Filtering"/>
+      <p align="center"><em>Filter System: Advanced workout categorization</em></p>
+    </td>
+    <td width="50%">
+      <img src="ss/no-entry-found.png" alt="Empty State"/>
+      <p align="center"><em>Empty State: User-friendly feedback when no results found</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="ss/bar-chart.png" alt="Performance Analytics"/>
+      <p align="center"><em>Performance Metrics: Detailed workout analytics</em></p>
+    </td>
+    <td width="50%">
+      <img src="ss/pie-chart.png" alt="Workout Distribution"/>
+      <p align="center"><em>Activity Distribution: Visual breakdown of workout types</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="ss/doughnut-chart.png" alt="Progress Tracking"/>
+      <p align="center"><em>Progress Tracker: Comprehensive fitness journey visualization</em></p>
+    </td>
+    <td width="50%">
+      <img src="ss/doughnut-user-changed.png" alt="User Statistics"/>
+      <p align="center"><em>User Metrics: Personalized workout statistics</em></p>
+    </td>
+  </tr>
+</table>
+
+## 🚀 Key Features
+
+- **Elegant UI/UX:** Fully responsive design with smooth and intuitive user interactions.
+- **Workout Logging:** Easily log and track your workouts in real-time.
+- **User Search:** Quickly find users with an intelligent search feature.
+- **Workout Filtering:** Filter workouts efficiently using advanced options.
+- **Smart Pagination:** Navigate through data seamlessly with a dynamic pagination system.
+- **Local Storage:** Store data persistently for offline access.
+- **Real-Time Updates:** Get instant updates for all your workout data.
+- **Robust Validation:** Ensure data accuracy with strong validation mechanisms.
+
+
+
+## 💻 Technology Stack
 
 - Angular 14+
 - TypeScript
@@ -44,25 +99,25 @@ Check out the live application: [Health Challenge Tracker](your-deployed-url)
 - Local Storage API
 - Karma & Jasmine
 
-## 🛠️ Setup & Installation
+## 🛠️ Setup Guide
 
 ```bash
-# Clone repository
-git clone https://github.com/your-username/fyle-frontend-challenge.git
+# Clone the repository
+git clone https://github.com/rixitgithub/fyle_health_tracker.git
 
-# Navigate to directory
-cd fyle-frontend-challenge
+# Navigate to project directory
+cd fyle_health_tracker
 
 # Install dependencies
 npm install
 
-# Start development server
+# Launch development server
 ng serve
 ```
 
-Visit `http://localhost:4200` in your browser.
+Access the application at `http://localhost:4200`
 
-## 📁 Project Structure
+## 📁 Project Architecture
 
 ```
 src/
@@ -75,100 +130,65 @@ src/
 │   │   └── workout.service.ts
 │   ├── models/
 │   │   └── user.model.ts
-│   └── shared/
 └── styles/
 ```
 
-## 🧪 Testing
+## 🧪 Testing Coverage
 
 ```bash
-# Run tests
+# Execute test suite
 ng test
 
 # Generate coverage report
 ng test --code-coverage
 ```
 
-### Coverage Report
-
+### Coverage Summary
 ```
 =============================== Coverage summary ===============================
-Statements   : 100% ( 150/150 )
-Branches     : 100% ( 30/30 )
-Functions    : 100% ( 40/40 )
-Lines        : 100% ( 140/140 )
+Statements   : 100% ( 189/189 )
+Branches     : 100% ( 50/50 )
+Functions    : 100% ( 66/66 )
+Lines        : 100% ( 173/173 )
 ================================================================================
 ```
 
-## 📱 Features Implementation
+ <img src="ss/coverage.png" alt="Workout Entry Interface"/>
+ <p align="center"><em>Coverage Report: Achieved 100% Test Coverage Across All Components</em></p>
 
-### Add Workout Form
-- User name input (required)
-- Workout type selection
-- Duration in minutes
-- Form validation
+## ⚠️ Current Limitations
 
-### Workout Records
-- Name search functionality
-- Workout type filtering
-- 5 items per page pagination
-- Clean data presentation
+- Local storage-based
+- Fixed workout categories
+- Single user context
 
-### Data Visualization
-- Interactive charts
-- Progress tracking
-- Workout distribution
-
-## 🎨 Design Decisions
-
-1. **Minimalist UI**
-   - Focus on essential features
-   - Clean, readable typography
-   - Consistent spacing
-
-2. **Performance**
-   - Optimized loading
-   - Smooth interactions
-   - Efficient data handling
-
-3. **Code Quality**
-   - Strict TypeScript
-   - Comprehensive testing
-   - Clean code principles
-
-## ⚠️ Limitations
-
-- Local storage only
-- Predefined workout types
-- Single user session
-
-## 🔮 Future Scope
+## 🔮 Future Enhancements
 
 - [ ] Backend integration
-- [ ] User authentication
-- [ ] Advanced analytics
-- [ ] Workout recommendations
-- [ ] Social sharing
+- [ ] User authentication system
+- [ ] Enhanced analytics
+- [ ] AI-powered workout suggestions
+- [ ] Social sharing capabilities
 
-## 👨‍💻 Developer
+## 👨‍💻 Developer Profile
 
-**Your Name**
+**Rishit Tiwari**
 
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?style=flat&logo=github)](your-github)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat&logo=linkedin)](your-linkedin)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Website-blue)](your-portfolio)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?style=flat&logo=github)](https://github.com/rixitgithub)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/rishit-tiwari/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Website-blue)](http://rishit-tiwari.vercel.app/)
 
 ## 🙏 Acknowledgments
 
-Special thanks to Fyle for this opportunity to demonstrate my frontend development skills.
+Grateful to Fyle for providing this opportunity to showcase frontend development expertise.
 
 ---
 
 <div align="center">
 
-### Made with ❤️ for Fyle
+### Crafted with ❤️ for Fyle
 
-[![Issues](https://img.shields.io/badge/Report-Issues-red)](issues-link)
-[![Features](https://img.shields.io/badge/Request-Features-green)](features-link)
+[![Issues](https://img.shields.io/badge/Report-Issues-red)](mailto:irishittiwari@gmail.com?subject=Issue%20Report)
+[![Features](https://img.shields.io/badge/Request-Features-green)](mailto:irishittiwari@gmail.com?subject=Feature%20Request)
 
 </div>
